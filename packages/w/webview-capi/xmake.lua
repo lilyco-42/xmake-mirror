@@ -9,13 +9,16 @@ package("webview-capi")
     add_versions("1.1.0", "11420ea13763ebc82cbc21866e2107884d097fbd4d188c5dca3be506797645d1")
 
     add_syslinks("user32", "shell32", "ole32", "oleaut32", "shlwapi", "version")
+    add_links("webview")
 
-    on_install(function (package)
+    on_install("windows", "mingw", function (package)
         -- lib/ 下: webview.h (单头文件) + webview.dll/.lib (预编译)
         os.cp("lib/webview.h", package:installdir("include"))
-        if package:is_plat("windows") then
-            os.cp("lib/webview.dll", package:installdir("bin"))
-            os.cp("lib/webview.lib", package:installdir("lib"))
+        os.cp("lib/webview.dll", package:installdir("bin"))
+        os.cp("lib/webview.lib", package:installdir("lib"))
+        if package:is_plat("mingw") then
+            -- mingw ld 可直接链 DLL (搜索 libwebview.dll / webview.dll)
+            os.cp("lib/webview.dll", package:installdir("lib"))
         end
     end)
 
