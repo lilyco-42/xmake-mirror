@@ -33,10 +33,20 @@ xmake run
 
 ## 可用包
 
-| 包名 | 说明 | 版本 |
-|------|------|------|
-| webview-capi | C API for WebView2 (DLL + 头文件) | 1.0.0 |
-| webview-mini | 最小 WebView2 封装 (单头文件) | 1.0.0 |
+| 包名 | 说明 | 版本 | 安装平台 |
+|------|------|------|---------|
+| webview-capi | C API for WebView2（DLL + 导入库 + 头文件） | 1.1.0 | windows / mingw |
+| webview-mini | 最小 WebView2 封装（单头文件 + 预编译静态库） | 1.1.0 | mingw |
+
+本仓这两个包目前**只覆盖 Windows**。`webview-mini` 只带了 MinGW 预编译静态库，
+MSVC 请用 `webview-capi`（它提供 DLL + 导入库）。
+
+## 配方来源
+
+`packages/w/webview-mini/xmake.lua` 在
+[webview-mini 仓库](https://github.com/lilyco-42/webview-mini) 里也有一份
+（`packages/webview-mini/xmake.lua`）。用户通过 `add_repositories` 拿到的是**本仓**这份，
+所以改配方时请以本仓为准，并同步回仓库内那份。
 
 ## 支持平台
 
@@ -45,6 +55,8 @@ xmake run
 - macOS (WKWebView)
 - Linux (WebKitGTK)
 - WASM (纯前端)
+
+> 上面是底层 WebView 封装本身覆盖的平台；本镜像的包只提供 Windows 的预编译产物。
 
 ## 支持语言
 
